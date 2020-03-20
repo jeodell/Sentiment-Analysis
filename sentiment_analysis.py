@@ -14,16 +14,11 @@ nltk.download('stopwords')
 print('Step 1\n')
 df_small = pd.read_csv('data_raw/bb/bb_2011_2013.csv')
 df_full = pd.read_csv('data_raw/bb/bb_1996_2013.csv', index_col=0)
-print('df_small head: \n' + str(df_small.head()))
-print()
-print('df_small shape: \n' + str(df_small.shape))
-print()
-print('Report in first row of df_small: \n' + str(df_small['text'][0]))
-print()
-print('df_full head: \n' + str(df_full.head()))
-print()
-print('df_full shape: \n' + str(df_full.shape))
-print()
+print('df_small head: \n' + str(df_small.head()) + '\n')
+print('df_small shape: \n' + str(df_small.shape) + '\n')
+print('Report in first row of df_small: \n' + str(df_small['text'][0]) + '\n')
+print('df_full head: \n' + str(df_full.head()) + '\n')
+print('df_full shape: \n' + str(df_full.shape) + '\n')
 
 # Step 2
 print('Step 2\n')
@@ -40,38 +35,28 @@ neg_lexicon_df = pd.DataFrame()
 for file in positive_lexicon_files:
     df_file = pd.read_csv(file, names=['positive_lexicon'])
     pos_lexicon_df = pd.concat([pos_lexicon_df, df_file])
-print('pos_lexicon_df shape: \n' + str(pos_lexicon_df.shape))
-print()
-print('pos_lexicon_df tail: \n' + str(pos_lexicon_df.tail()))
-print()
-print('pos_lexicon_df head: \n' + str(pos_lexicon_df.head()))
-print()
+print('pos_lexicon_df shape: \n' + str(pos_lexicon_df.shape) + '\n')
+print('pos_lexicon_df tail: \n' + str(pos_lexicon_df.tail()) + '\n')
+print('pos_lexicon_df head: \n' + str(pos_lexicon_df.head()) + '\n')
 
 for file in negative_lexicon_files:
     df_file = pd.read_csv(file, encoding='latin_1', names=['negative_lexicon'])
     neg_lexicon_df = pd.concat([neg_lexicon_df, df_file])
-print('neg_lexicon_df shape: \n' + str(neg_lexicon_df.shape))
-print()
-print('neg_lexicon_df tail: \n' + str(neg_lexicon_df.tail()))
-print()
-print('neg_lexicon_df head: \n' + str(neg_lexicon_df.head()))
-print()
+print('neg_lexicon_df shape: \n' + str(neg_lexicon_df.shape) + '\n')
+print('neg_lexicon_df tail: \n' + str(neg_lexicon_df.tail()) + '\n')
+print('neg_lexicon_df head: \n' + str(neg_lexicon_df.head()) + '\n')
 
 # Step 3
 print('Step 3\n')
 pos_lexicon_df = pos_lexicon_df.apply(lambda x: x.str.lower())
 pos_lexicon_df = pos_lexicon_df.apply(lambda x: x.str.replace('\\t', '').replace('\\r', '').replace('`', '').replace('\\n', ''))
-print('pos_lexicon_df cleaned shape: \n' + str(pos_lexicon_df.shape))
-print()
-print('pos_lexicon_df cleaned tail: \n' + str(pos_lexicon_df.tail()))
-print()
+print('pos_lexicon_df cleaned shape: \n' + str(pos_lexicon_df.shape) + '\n')
+print('pos_lexicon_df cleaned tail: \n' + str(pos_lexicon_df.tail()) + '\n')
 
 neg_lexicon_df = neg_lexicon_df.apply(lambda x: x.str.lower())
 neg_lexicon_df = neg_lexicon_df.apply(lambda x: x.str.replace('\\t', '').replace('\\r', '').replace('`', '').replace('\\n', ''))
-print('neg_lexicon_df cleaned shape: \n' + str(neg_lexicon_df.shape))
-print()
-print('neg_lexicon_df cleaned tail: \n' + str(neg_lexicon_df.tail()))
-print()
+print('neg_lexicon_df cleaned shape: \n' + str(neg_lexicon_df.shape) + '\n')
+print('neg_lexicon_df cleaned tail: \n' + str(neg_lexicon_df.tail()) + '\n')
 
 # Step 4
 print('Step 4\n')
@@ -109,15 +94,13 @@ def scoreSentiment(data_df, pos_lexicon_df, neg_lexicon_df):
 
 
 small_scores = scoreSentiment(df_small, pos_lexicon_df, neg_lexicon_df)
-print('Small Scores: \n' + str(small_scores))
-print()
+print('Small Scores: \n' + str(small_scores) + '\n')
 
 plt.hist(small_scores, bins=[-20, -10, 0, 10, 20, 30, 40])
 plt.show()
 
 full_scores = scoreSentiment(df_full, pos_lexicon_df, neg_lexicon_df)
-print('Full Scores: \n' + str(full_scores))
-print()
+print('Full Scores: \n' + str(full_scores) + '\n')
 
 plt.hist(full_scores, bins=range(-60, 50, 10))
 plt.show()
@@ -133,8 +116,7 @@ for row in df_full.iterrows():
         continue
     whole_text += row_text
     row_num += 1
-print('Length of whole text: \n' + str(len(whole_text)))
-print()
+print('Length of whole text: \n' + str(len(whole_text)) + '\n')
 
 stopword_files = ["data_raw/stopwords/stopwords.finance.txt",
                   "data_raw/stopwords/stopwords.geographic.txt",
@@ -152,26 +134,21 @@ df_stopwords = df_stopwords.apply(lambda x: x.str.lower())
 
 stopwords = list((df_stopwords['stopword']))
 stopwords = [s.strip() for s in stopwords]
-print('Length of stopwords: \n' + str(len(stopwords)))
-print()
-print('First 10 stopwords: \n' + str(stopwords[0:10]))
-print()
+print('Length of stopwords: \n' + str(len(stopwords)) + '\n')
+print('First 10 stopwords: \n' + str(stopwords[0:10]) + '\n')
 
 stopwords.append("said")
 nltk_stopwords = list(set(nltk.corpus.stopwords.words('english')))
-print('Length of nltk_stopwords: \n' + str(len(nltk_stopwords)))
-print()
+print('Length of nltk_stopwords: \n' + str(len(nltk_stopwords)) + '\n')
 stopwords += nltk_stopwords
 stopwords = set(stopwords)
-print('Length of stopwords containing only unique words: \n' + str(len(stopwords)))
-print()
+print('Length of stopwords containing only unique words: \n' + str(len(stopwords)) + '\n')
 
 stemmer = SnowballStemmer("english")
 words = whole_text.split()
 stemmed_words = [stemmer.stem(word) for word in words]
 stemmed_words = ' '.join(stemmed_words)
-print('Length of whole text: \n' + str(len(whole_text)))
-print()
+print('Length of whole text: \n' + str(len(whole_text)) + '\n')
 print('Length of cleaned text: \n' + str(len(stemmed_words)))
 
 wc = WordCloud(background_color='white', max_words=2000, stopwords=stopwords)
